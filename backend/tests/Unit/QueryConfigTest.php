@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\DTOs\QueryConfig;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * QueryConfig Unit Tests
@@ -13,7 +12,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  */
 class QueryConfigTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * Test QueryConfig creation from request parameters

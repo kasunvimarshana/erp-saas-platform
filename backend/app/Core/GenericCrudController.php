@@ -94,6 +94,15 @@ abstract class GenericCrudController extends BaseController
 
     /**
      * Store a newly created resource
+     * 
+     * Note: Child classes should override this method with proper FormRequest validation
+     * Example:
+     * ```
+     * public function store(CreateProductRequest $request): JsonResponse
+     * {
+     *     return parent::store($request);
+     * }
+     * ```
      *
      * @param Request $request
      * @return JsonResponse
@@ -101,7 +110,9 @@ abstract class GenericCrudController extends BaseController
     public function store(Request $request): JsonResponse
     {
         try {
-            $data = $request->validated();
+            // Use all() instead of validated() since base Request doesn't have validation rules
+            // Child controllers should override with FormRequest
+            $data = method_exists($request, 'validated') ? $request->validated() : $request->all();
             $resource = $this->service->create($data);
 
             if ($this->resourceClass && class_exists($this->resourceClass)) {
@@ -150,6 +161,15 @@ abstract class GenericCrudController extends BaseController
 
     /**
      * Update the specified resource
+     * 
+     * Note: Child classes should override this method with proper FormRequest validation
+     * Example:
+     * ```
+     * public function update(UpdateProductRequest $request, int $id): JsonResponse
+     * {
+     *     return parent::update($request, $id);
+     * }
+     * ```
      *
      * @param Request $request
      * @param int $id
@@ -158,7 +178,9 @@ abstract class GenericCrudController extends BaseController
     public function update(Request $request, int $id): JsonResponse
     {
         try {
-            $data = $request->validated();
+            // Use all() instead of validated() since base Request doesn't have validation rules
+            // Child controllers should override with FormRequest
+            $data = method_exists($request, 'validated') ? $request->validated() : $request->all();
             $result = $this->service->update($id, $data);
 
             if (!$result) {

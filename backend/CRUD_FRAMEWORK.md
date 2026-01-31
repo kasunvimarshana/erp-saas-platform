@@ -232,17 +232,9 @@ GET /api/products?with_count=skus,batches
 ```
 
 ### 10. Complex Query
+Note: This is shown on multiple lines for readability, but should be a single URL in practice.
 ```
-GET /api/products?select=id,name,price
-    &search=electronics
-    &search_fields=name,description
-    &filters[status]=active
-    &filters[price][operator]=>
-    &filters[price][value]=50
-    &sort=price:desc
-    &with=category:id,name
-    &per_page=25
-    &page=1
+GET /api/products?select=id,name,price&search=electronics&search_fields=name,description&filters[status]=active&filters[price][operator]=>&filters[price][value]=50&sort=price:desc&with=category:id,name&per_page=25&page=1
 ```
 
 ## Query Parameter Reference

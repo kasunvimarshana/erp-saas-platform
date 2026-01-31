@@ -251,9 +251,10 @@ trait DynamicQueryBuilder
 
             // Support relation sorting (e.g., 'user.name')
             if (str_contains($field, '.')) {
-                // For relation sorting, we need to join the table
-                // This is a simplified approach; more complex scenarios may need custom handling
-                continue; // Skip relation sorting for now - requires table joins
+                // Relation sorting requires table joins which is not supported in this generic implementation
+                // Skip for now - implement in specific repositories if needed
+                // Consider using query scopes or custom repository methods for complex relation sorting
+                continue;
             }
 
             $query->orderBy($field, $dir);
