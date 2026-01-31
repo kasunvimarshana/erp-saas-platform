@@ -24,6 +24,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { generateUniqueId } from '@/utils/id'
 
 const props = defineProps({
   modelValue: [String, Number],
@@ -41,7 +42,7 @@ const props = defineProps({
 
 defineEmits(['update:modelValue'])
 
-const selectId = computed(() => `select-${Math.random().toString(36).substr(2, 9)}`)
+const selectId = generateUniqueId('select')
 
 const selectClasses = computed(() => {
   const base = 'block w-full rounded-md shadow-sm sm:text-sm'

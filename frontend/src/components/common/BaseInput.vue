@@ -22,6 +22,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { generateUniqueId } from '@/utils/id'
 
 const props = defineProps({
   modelValue: [String, Number],
@@ -39,7 +40,7 @@ const props = defineProps({
 
 defineEmits(['update:modelValue', 'blur'])
 
-const inputId = computed(() => `input-${Math.random().toString(36).substr(2, 9)}`)
+const inputId = generateUniqueId('input')
 
 const inputClasses = computed(() => {
   const base = 'block w-full rounded-md shadow-sm sm:text-sm'

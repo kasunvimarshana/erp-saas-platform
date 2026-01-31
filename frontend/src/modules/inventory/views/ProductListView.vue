@@ -66,7 +66,7 @@ const viewProduct = (id) => router.push({ name: 'products-view', params: { id } 
 const editProduct = (id) => router.push({ name: 'products-edit', params: { id } })
 
 const deleteProduct = async (id) => {
-  if (!confirm('Are you sure?')) return
+  if (!confirm('Are you sure you want to delete this product? This action cannot be undone.')) return
   try {
     await api.products.delete(id)
     fetchProducts()

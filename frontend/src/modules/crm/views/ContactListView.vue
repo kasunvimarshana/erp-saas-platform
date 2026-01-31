@@ -61,7 +61,7 @@ const editContact = (id) => {
 }
 
 const deleteContact = async (id) => {
-  if (!confirm('Are you sure?')) return
+  if (!confirm('Are you sure you want to delete this contact? This action cannot be undone.')) return
   try {
     await api.contacts.delete(id)
     fetchContacts()

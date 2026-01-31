@@ -53,7 +53,7 @@ const fetchVehicles = async () => {
 const editVehicle = (id) => router.push({ name: 'vehicles-edit', params: { id } })
 
 const deleteVehicle = async (id) => {
-  if (!confirm('Are you sure?')) return
+  if (!confirm('Are you sure you want to delete this vehicle? This action cannot be undone.')) return
   try {
     await api.vehicles.delete(id)
     fetchVehicles()

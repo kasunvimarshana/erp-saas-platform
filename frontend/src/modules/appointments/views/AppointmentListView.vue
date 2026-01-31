@@ -63,7 +63,7 @@ const fetchAppointments = async () => {
 const editAppointment = (id) => router.push({ name: 'appointments-edit', params: { id } })
 
 const deleteAppointment = async (id) => {
-  if (!confirm('Are you sure?')) return
+  if (!confirm('Are you sure you want to delete this appointment? This action cannot be undone.')) return
   try {
     await api.appointments.delete(id)
     fetchAppointments()

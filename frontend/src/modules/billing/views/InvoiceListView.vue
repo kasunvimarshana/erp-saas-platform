@@ -71,7 +71,7 @@ const viewInvoice = (id) => router.push({ name: 'invoices-view', params: { id } 
 const editInvoice = (id) => router.push({ name: 'invoices-edit', params: { id } })
 
 const deleteInvoice = async (id) => {
-  if (!confirm('Are you sure?')) return
+  if (!confirm('Are you sure you want to delete this invoice? This action cannot be undone.')) return
   try {
     await api.invoices.delete(id)
     fetchInvoices()
