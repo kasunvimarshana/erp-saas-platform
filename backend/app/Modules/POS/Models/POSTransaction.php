@@ -78,7 +78,7 @@ class POSTransaction extends Model
 
     public function cashier()
     {
-        return $this->belongsTo(\App\Modules\Auth\Models\User::class, 'cashier_id');
+        return $this->belongsTo(\App\Modules\Identity\Models\User::class, 'cashier_id');
     }
 
     public function items()
