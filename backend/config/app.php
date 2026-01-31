@@ -168,6 +168,16 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        
+        /*
+         * Module Service Providers...
+         */
+        App\Modules\Identity\IdentityServiceProvider::class,
+        App\Modules\Tenancy\TenancyServiceProvider::class,
+        App\Modules\CRM\CRMServiceProvider::class,
+        App\Modules\Inventory\InventoryServiceProvider::class,
+        App\Modules\Procurement\ProcurementServiceProvider::class,
+        App\Modules\Appointments\AppointmentsServiceProvider::class,
         App\Modules\POS\POSServiceProvider::class,
         App\Modules\Billing\BillingServiceProvider::class,
     ])->toArray(),
