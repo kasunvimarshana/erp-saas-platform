@@ -25,7 +25,7 @@ class ServiceBay extends Model
 
     public function tenant()
     {
-        return $this->belongsTo(\App\Models\Tenant::class);
+        return $this->belongsTo(\App\Modules\Tenancy\Models\Tenant::class);
     }
 
     public function currentAppointment()

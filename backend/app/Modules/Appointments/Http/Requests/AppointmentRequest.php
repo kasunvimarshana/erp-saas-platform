@@ -13,8 +13,6 @@ class AppointmentRequest extends FormRequest
 
     public function rules(): array
     {
-        $appointmentId = $this->route('appointment');
-        
         return [
             'customer_id' => 'required|exists:customers,id',
             'vehicle_id' => 'required|exists:vehicles,id',

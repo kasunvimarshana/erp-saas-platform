@@ -35,17 +35,17 @@ class Appointment extends Model
 
     public function tenant()
     {
-        return $this->belongsTo(\App\Models\Tenant::class);
+        return $this->belongsTo(\App\Modules\Tenancy\Models\Tenant::class);
     }
 
     public function customer()
     {
-        return $this->belongsTo(\App\Modules\Customers\Models\Customer::class);
+        return $this->belongsTo(\App\Modules\CRM\Models\Customer::class);
     }
 
     public function vehicle()
     {
-        return $this->belongsTo(\App\Modules\Vehicles\Models\Vehicle::class);
+        return $this->belongsTo(\App\Modules\CRM\Models\Vehicle::class);
     }
 
     public function serviceBay()

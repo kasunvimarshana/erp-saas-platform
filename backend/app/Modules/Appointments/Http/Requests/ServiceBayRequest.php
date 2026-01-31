@@ -13,7 +13,7 @@ class ServiceBayRequest extends FormRequest
 
     public function rules(): array
     {
-        $serviceBayId = $this->route('service_bay');
+        $serviceBayId = $this->route('id');
         
         return [
             'bay_number' => 'required|string|max:50|unique:service_bays,bay_number,' . $serviceBayId,
