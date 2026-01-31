@@ -2,8 +2,10 @@
 
 namespace App\Core;
 
+use App\DTOs\QueryConfig;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -11,11 +13,23 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
  * Class BaseController
  * 
  * Base API controller providing consistent response formatting
+ * and dynamic query parameter handling
  * 
  * @package App\Core
  */
 abstract class BaseController extends Controller
 {
+    /**
+     * Build QueryConfig from request
+     *
+     * @param Request $request
+     * @return QueryConfig
+     */
+    protected function buildQueryConfig(Request $request): QueryConfig
+    {
+        return QueryConfig::fromRequest($request->all());
+    }
+
     /**
      * Return success response
      *

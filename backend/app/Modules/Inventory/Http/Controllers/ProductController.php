@@ -27,13 +27,40 @@ class ProductController extends BaseController
 
     /**
      * Display a listing of products
+     * 
+     * Enhanced with dynamic query support:
+     * - ?select=id,name,price - Field selection
+     * - ?search=laptop&search_fields=name,description - Global search
+     * - ?filters[status]=active - Filtering
+     * - ?sort=price:desc - Sorting
+     * - ?per_page=20&page=1 - Pagination
+     * - ?with=skus,tenant - Eager loading
      *
+     * @param \Illuminate\Http\Request $request
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(\Illuminate\Http\Request $request): JsonResponse
     {
-        $products = $this->service->getAllProducts();
-        return $this->collection(ProductResource::collection($products));
+        try {
+            // Build query configuration from request
+            $config = $this->buildQueryConfig($request);
+            
+            // Execute dynamic query
+            $products = $this->service->query($config);
+            
+            // Return paginated or collection response
+            if (method_exists($products, 'items')) {
+                // Paginated results
+                return $this->success($products);
+            } else {
+                // Non-paginated collection
+                return $this->collection(ProductResource::collection($products));
+            }
+        } catch (\InvalidArgumentException $e) {
+            return $this->validationError([], $e->getMessage());
+        } catch (\Exception $e) {
+            return $this->error('Failed to fetch products: ' . $e->getMessage(), 500);
+        }
     }
 
     /**
