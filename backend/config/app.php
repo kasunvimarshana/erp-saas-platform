@@ -169,6 +169,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Modules\POS\POSServiceProvider::class,
+        App\Modules\Billing\BillingServiceProvider::class,
     ])->toArray(),
 
     /*
