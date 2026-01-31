@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('capacity')->default(1);
             $table->enum('status', ['available', 'occupied', 'maintenance'])->default('available');
-            $table->foreignId('current_appointment_id')->nullable()->constrained('appointments')->onDelete('set null');
+            $table->unsignedBigInteger('current_appointment_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

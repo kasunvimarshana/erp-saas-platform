@@ -17,7 +17,7 @@ class AppointmentRequest extends FormRequest
             'customer_id' => 'required|exists:customers,id',
             'vehicle_id' => 'required|exists:vehicles,id',
             'service_bay_id' => 'nullable|exists:service_bays,id',
-            'scheduled_date' => 'required|date|after_or_equal:today',
+            'scheduled_date' => 'required|date|after_or_equal:' . now()->toDateString(),
             'scheduled_time' => 'required|date_format:H:i',
             'duration_minutes' => 'required|integer|min:15|max:480',
             'service_type' => 'required|string|max:255',
