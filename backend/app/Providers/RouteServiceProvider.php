@@ -20,6 +20,19 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/home';
 
     /**
+     * Load module routes
+     */
+    protected function loadModuleRoutes(): void
+    {
+        $modulesPath = app_path('Modules');
+        $modules = glob($modulesPath . '/*/routes.php');
+        
+        foreach ($modules as $routeFile) {
+            require $routeFile;
+        }
+    }
+
+    /**
      * Define your route model bindings, pattern filters, and other route configuration.
      */
     public function boot(): void
@@ -35,6 +48,9 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+            
+            // Load module routes
+            $this->loadModuleRoutes();
         });
     }
 }
