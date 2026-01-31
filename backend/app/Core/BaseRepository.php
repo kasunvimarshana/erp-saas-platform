@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Core\Traits\DynamicQueryBuilder;
+use App\DTOs\QueryConfig;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -22,17 +24,21 @@ interface BaseRepositoryInterface
     public function update(int $id, array $data): bool;
     public function delete(int $id): bool;
     public function with(array $relations): self;
+    public function query(QueryConfig $config);
 }
 
 /**
  * Class BaseRepository
  * 
  * Base repository implementation providing common data access patterns
+ * with advanced dynamic query capabilities
  * 
  * @package App\Core
  */
 abstract class BaseRepository implements BaseRepositoryInterface
 {
+    use DynamicQueryBuilder;
+
     /**
      * @var Model
      */
@@ -42,6 +48,30 @@ abstract class BaseRepository implements BaseRepositoryInterface
      * @var array
      */
     protected array $with = [];
+
+    /**
+     * Allowed fields for filtering, sorting, and searching
+     * Override in child classes to restrict queryable fields
+     * 
+     * @var array
+     */
+    protected array $allowedFields = [];
+
+    /**
+     * Allowed relations for eager loading
+     * Override in child classes to restrict loadable relations
+     * 
+     * @var array
+     */
+    protected array $allowedRelations = [];
+
+    /**
+     * Default searchable fields for global search
+     * Override in child classes to define searchable fields
+     * 
+     * @var array
+     */
+    protected array $searchableFields = [];
 
     /**
      * BaseRepository constructor.
@@ -190,5 +220,63 @@ abstract class BaseRepository implements BaseRepositoryInterface
     protected function reset(): void
     {
         $this->with = [];
+    }
+
+    /**
+     * Dynamic query using QueryConfig
+     * 
+     * This is the main method for executing configuration-driven queries
+     * with support for filtering, searching, sorting, pagination, and eager loading
+     *
+     * @param QueryConfig $config
+     * @return LengthAwarePaginator|Collection
+     */
+    public function query(QueryConfig $config)
+    {
+        // Validate config if allowed fields/relations are defined
+        if (!empty($this->allowedFields) || !empty($this->allowedRelations)) {
+            $errors = $config->validate($this->allowedFields, $this->allowedRelations);
+            if (!empty($errors)) {
+                throw new \InvalidArgumentException('Invalid query config: ' . implode(', ', $errors));
+            }
+        }
+
+        // Use searchable fields if search is requested but no fields specified
+        if ($config->search && empty($config->search['fields']) && !empty($this->searchableFields)) {
+            $config->search['fields'] = $this->searchableFields;
+        }
+
+        // Build and execute dynamic query
+        return $this->buildDynamicQuery($this->model->newQuery(), $config);
+    }
+
+    /**
+     * Get searchable fields
+     *
+     * @return array
+     */
+    public function getSearchableFields(): array
+    {
+        return $this->searchableFields;
+    }
+
+    /**
+     * Get allowed fields
+     *
+     * @return array
+     */
+    public function getAllowedFields(): array
+    {
+        return $this->allowedFields;
+    }
+
+    /**
+     * Get allowed relations
+     *
+     * @return array
+     */
+    public function getAllowedRelations(): array
+    {
+        return $this->allowedRelations;
     }
 }
